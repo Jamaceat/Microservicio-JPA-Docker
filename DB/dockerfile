@@ -1,0 +1,5 @@
+# Utiliza una imagen base de MySQL
+FROM mysql:8.3.0
+
+# Expone el puerto de MySQL (por defecto es 3306)
+EXPOSE 3307
