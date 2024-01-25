@@ -11,10 +11,22 @@ services:
       MYSQL_USER: user1
       MYSQL_PASSWORD: password
       MYSQL_PORT: 3306
+    command:
+      [
+        "dockerize",
+        "-wait",
+        "tcp://mysql:3306",
+        "-timeout",
+        "30s",
+        "java",
+        "-jar",
+        "/app/target/crud-jpa-0.0.1-SNAPSHOT.jar",
+      ]
     networks:
       - mi_red
     depends_on:
       - mysql
+
   mysql:
     container_name: mysqldb
     build: ./DB # Ruta al directorio que contiene el Dockerfile de MySQL
