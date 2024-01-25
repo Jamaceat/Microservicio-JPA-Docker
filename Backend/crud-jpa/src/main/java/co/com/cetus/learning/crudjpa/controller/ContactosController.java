@@ -9,17 +9,32 @@ import co.com.cetus.learning.crudjpa.service.AgendaService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
+@CrossOrigin("*")
 @Slf4j
 public class ContactosController {
+
+    // @Value("${SPRING_URL}")
+    // String SPRING_URL;
+    // @Value("${SPRING_PORT}")
+    // String SPRING_PORT;
+    // @Value("${SPRING_USER}")
+    // String SPRING_USER;
+    // @Value("${SPRING_PASSWORD}")
+    // String SPRING_PASSWORD;
+    @Value("${spring.datasource.url}")
+    String absoluteUrl;
 
     @Autowired
     private AgendaService service;
@@ -58,6 +73,12 @@ public class ContactosController {
         if (service.buscarContacto(idContacto) == null)
             return 1;
         return 0;
+    }
+
+    @GetMapping(value = "/info", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String returnsInfo() {
+        return String.format("absoluteUrl=%s",
+                this.absoluteUrl);
     }
 
 }

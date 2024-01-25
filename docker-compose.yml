@@ -1,18 +1,43 @@
 version: "3.8"
 
 services:
+  db:
+    platform: linux/x86_64
+    # network_mode: host
+
+    build:
+      context: ./DB
+      dockerfile: bd.dockerfile
+    # networks:
+    #   - connectiondb
+    image: dbmysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=agenda2
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=user1
+      - MYSQL_PASSWORD=password
+    ports:
+      - 3307:3306
+    volumes:
+      - ./DB/Data:/docker-entrypoint-initdb.d
+
   backend:
     build:
       context: ./Backend
       dockerfile: backend.dockerfile
     image: springbootcontactos
+    restart: always
+    ports:
+      - 8080:8080
+    # networks:
+    #   - connectiondb
+    environment:
+      - SPRING_URL=db
+      - SPRING_PORT=3307
+      - SPRING_USER=user1
+      - SPRING_PASSWORD=password
     depends_on:
       - db
-  db:
-    build:
-      context: ./DB
-      dockerfile: bd.dockerfile
-    restart: always
-    volumes:
-      - ./DB:/docker-entrypoint-initdb.d
-    entrypoint: ["executable", "arg"]
+# networks:
+#   connectiondb:
