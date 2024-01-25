@@ -36,6 +36,11 @@ public class ContactosController {
     @Value("${spring.datasource.url}")
     String absoluteUrl;
 
+    @Value("${spring.datasource.username}")
+    String usernameConnection;
+    @Value("${spring.datasource.password}")
+    String passwordConnection;
+
     @Autowired
     private AgendaService service;
 
@@ -78,7 +83,8 @@ public class ContactosController {
     @GetMapping(value = "/info", produces = MediaType.TEXT_PLAIN_VALUE)
     public String returnsInfo() {
         return String.format("absoluteUrl=%s",
-                this.absoluteUrl);
+                this.absoluteUrl).concat("\n Username: ").concat(this.usernameConnection).concat("\n Password: ")
+                .concat(this.passwordConnection);
     }
 
 }
