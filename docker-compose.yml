@@ -22,8 +22,6 @@ services:
         "-jar",
         "/app/target/crud-jpa-0.0.1-SNAPSHOT.jar",
       ]
-    networks:
-      - mi_red
     depends_on:
       - mysql
 
@@ -41,12 +39,6 @@ services:
       - mysql_data:/var/lib/mysql
     ports:
       - "3307:3306"
-    networks:
-      - mi_red
 
 volumes:
   mysql_data:
-
-networks:
-  mi_red:
-    driver: bridge
